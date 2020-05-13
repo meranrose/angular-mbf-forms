@@ -1,19 +1,37 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
 
-body {
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
-}
-.basic-container {
-  padding: 30px;
-}
-.version-info {
-  font-size: 8pt;
-  float: right;
-  margin: 8px;
-}
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
 
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$candy-app-primary: mat-palette($mat-blue);
+$candy-app-accent:  mat-palette($mat-orange);
 
-/**  Copyright 2019 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license */
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-pink);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+// Define a mixin that accepts a theme and outputs the theme-specific styles.
+@mixin candy-carousel-theme($theme) {
+  // Extract the palettes you need from the theme definition.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  // Define any styles affected by the theme.
+$custom-typography: mat-typography-config(
+  $font-family: 'Noto Sans',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+}

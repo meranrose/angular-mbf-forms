@@ -21,7 +21,39 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($candy-app-theme);
+// Define a custom typography config that overrides the font-family as well as the
+// `headlines` and `body-1` levels.
+$custom-typography: mat-typography-config(
+  $font-family: 'Noto Sans, Arial, sans-serif',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
+@include mat-base-typography($custom-typography);
+
+// Override typography for a specific Angular Material components.
+@include mat-checkbox-typography($custom-typography);
+
+// Override typography for all Angular Material, including mat-base-typography and all components.
+@include angular-material-typography($custom-typography);
+
+// Override the typography in the core CSS.
+@include mat-core($custom-typography);
+
+// Create a config with the default typography levels.
+$config: mat-typography-config();
+
+// Custom header that uses only the Material `font-size` and `font-family`.
+.unicorn-header {
+  font-size: mat-font-size($config, headline);
+  font-family: mat-font-family($config);
+}
+
+// Custom title that uses all of the typography styles from the `title` level.
+.unicorn-title {
+  @include mat-typography-level-to-styles($config, title);
+}
+
 // Define a mixin that accepts a theme and outputs the theme-specific styles.
 @mixin candy-carousel-theme($theme) {
   // Extract the palettes you need from the theme definition.
@@ -29,9 +61,36 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
   $accent: map-get($theme, accent);
 
   // Define any styles affected by the theme.
-$custom-typography: mat-typography-config(
-  $font-family: 'Noto Sans',
-  $headline: mat-typography-level(32px, 48px, 700),
-  $body-1: mat-typography-level(16px, 24px, 500)
-);
+  .candy-carousel {
+    // Use mat-color to extract individual colors from a palette.
+    background-color: mat-color($primary);
+    border-color: mat-color($accent, A400);
+  }
 }
+
+@mixin candy-carousel-typography($config) {
+  .candy-carousel {
+    font: {
+      family: mat-font-family($config, body-1);
+      size: mat-font-size($config, body-1);
+      weight: mat-font-weight($config, body-1);
+    }
+  }
+}
+
+// Import library functions for theme creation.
+@import '~@angular/material/theming';
+
+// Include non-theme styles for core.
+@include mat-core();
+
+// Define your application's custom theme.
+$primary: mat-palette($mat-light-blue, A700);
+$accent:  mat-palette($mat-blue-grey, A900);
+$theme: mat-light-theme($primary, $accent);
+
+// Include theme styles for Angular Material components.
+@include angular-material-theme($theme);
+
+// Include theme styles for your custom components.
+@include candy-carousel-theme($theme);

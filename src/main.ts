@@ -11,6 +11,7 @@ import {DemoMaterialModule} from './app/material-module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 
 import {FormFieldHintExample} from './app/form-field-hint-example';
+import { ChipsAutocompleteExample } from './app/chips-autocomplete-example';
 
 // Default MatFormField appearance to 'fill' as that is the new recommended approach and the
 // `legacy` and `standard` appearances are scheduled for deprecation in version 10.
@@ -25,9 +26,9 @@ import {FormFieldHintExample} from './app/form-field-hint-example';
     MatNativeDateModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [FormFieldHintExample],
-  declarations: [FormFieldHintExample],
-  bootstrap: [FormFieldHintExample],
+  entryComponents: [FormFieldHintExample, ChipsAutocompleteExample],
+  declarations: [FormFieldHintExample, ChipsAutocompleteExample],
+  bootstrap: [FormFieldHintExample, ChipsAutocompleteExample],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   ]
